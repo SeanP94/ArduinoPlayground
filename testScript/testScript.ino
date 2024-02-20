@@ -1,27 +1,33 @@
-const byte D7 = 7;
-byte v = 0;
+/*
+Project to make a pin fade in and out.
+*/
+
+const byte D6_LED = 6; // LED pin 
+byte v = 0xf;
+byte m = 0xf;
+bool reverse = false;
+int counter = 0;
+
 void setup() {
   // put your setup code here, to run once:
-  pinMode(D7, OUTPUT);
+  pinMode(D6_LED, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  delay(500);
-  analogWrite(D7, 255);
-  delay(500);
-  analogWrite(D7, 30);
+  delay(100);
+  analogWrite(D6_LED, v);
+  if (counter == 15 ) { // Runs 15 times and then reverses;
+    reverse = (reverse == true) ? false : true;
+    counter = 0;
+  }
   
-  // v = v + m;
-  // Serial.write("\n");
-  // Serial.write(v);
-  // if (v >= 255) {
-  //   v = 255;
-  //   m = -10;
-  // }
-  // if ( v <= 0 ) {
-  //   v = 0;
-  //   m = 10;
-  // }
+  
+  // Applies logic to inc or dec the voltage. 
+  if (reverse) 
+    v -= m;
+  else 
+    v += m;
+  counter++;
 }
